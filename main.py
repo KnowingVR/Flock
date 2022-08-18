@@ -1,5 +1,5 @@
 # Importing all libraries
-from fileinput import filename
+from distutils.errors import LibError
 import os
 from cryptography.fernet import Fernet
 from colorama import init
@@ -19,9 +19,9 @@ def flock():
         os.system('cls')
         option = input(Style.BRIGHT+"Flock ALPHA"+Style.DIM+" (v0.1.0)\nEnter 'help' for full list of cmds"+Style.RESET_ALL+"\n\nflock> ")
         if option == 'help':
-            input("Encryption and Decryption\n encrypt - Encrypts a given file\ndecryption - Decrypt the given file\n\nPress ENTER to quit viewing")
+            input(Fore.LIGHTBLUE_EX+"\nEncryption and Decryption\nencrypt - Encrypts a given file\ndecryption - Decrypt the given file\n\n"+Style.RESET_ALL+"Press ENTER to quit viewing")
         elif option == 'encrypt':
-            filename = input(Fore.RED+"Make sure the file is in the same folder as main.py and enter the full file name like text.txt"+Style.RESET_ALL+"\nEnter the file: ")
+            filename = input(Fore.RED+"Make sure the file is in the same folder as main.py and enter the full file name like text.txt"+Style.RESET_ALL+"\n\nEnter the file: ")
             with open('key.key', 'rb') as key:
                 key = key.read()
                 fernet = Fernet(key)
@@ -31,11 +31,13 @@ def flock():
             with open(filename, 'wb') as encrypted_file:
                 encrypted_file.write(encrypted)
         elif option == 'decrypt':
-            filename = input(Fore.RED+"Make sure the file is in the same folder as main.py and enter the full file name like text.txt"+Style.RESET_ALL+"\nEnter the file: ")
+            filename = input(Fore.RED+"Make sure the file is in the same folder as main.py and enter the full file name like text.txt"+Style.RESET_ALL+"\n\nEnter the file: ")
             with open(filename, 'rb') as enc_file:
                 encrypted = enc_file.read()
             decrypted = fernet.decrypt(encrypted)
             with open(filename, 'wb') as dec_file:
                 dec_file.write(decrypted)
-
+        else:
+            input('\nYou entered a invalid command. To see all commands, please check the help command. Remember that commands are case sensitive. Press ENTER to reset.')
+        
 flock()

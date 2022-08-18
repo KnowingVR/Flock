@@ -1,2 +1,3 @@
 .vscode
 key.key
+.pytest_cache
